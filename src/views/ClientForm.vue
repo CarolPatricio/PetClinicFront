@@ -1,6 +1,6 @@
 <template>
   <v-form v-model="valid">
-    <v-container>
+    <v-container class="p-5 mt-5">
       <h1 class="text-h5 font-weight-bold mb-3">Cadastro de Cliente</h1>
       <v-row>
         <v-col cols="12" md="">
@@ -68,10 +68,12 @@
           ></v-text-field>
         </v-col>
       </v-row>
-      <v-btn color="success" @click="saveClient">
-        <v-icon left>mdi-content-save</v-icon>
-        Salvar
-      </v-btn>
+      <v-row class="justify-end">
+        <v-btn color="success" @click="saveClient">
+          <v-icon left>mdi-content-save</v-icon>
+          Salvar
+        </v-btn>
+      </v-row>
     </v-container>
   </v-form>
 </template>

@@ -1,15 +1,15 @@
 <template>
   <v-container class="p-5 mt-5">
     <v-flex class="d-flex justify-space-between">
-      <h1>Clientes</h1>
-      <v-btn color="blue" outlined @click="$router.push('clients/new')">
+      <h1>Consultas</h1>
+      <v-btn color="blue" outlined @click="$router.push('appointments/new')">
         <v-icon left> mdi-plus </v-icon>
         Adicionar
       </v-btn>
     </v-flex>
     <v-data-table
       :headers="headers"
-      :items="clients"
+      :items="appointments"
       :items-per-page="5"
       hide-default-footer
       class="elevation-1 mt-4"
@@ -19,7 +19,7 @@
 
 <script>
 export default {
-  name: "ClientList",
+  name: "AppointmentList",
   data() {
     return {
       headers: [
@@ -29,23 +29,17 @@ export default {
           sortable: false,
           value: "id",
         },
-        { text: "Nome", value: "name" },
-        { text: "E-mail", value: "email" },
-        { text: "Telefone", value: "phone" },
+        { text: "Data", value: "date" },
+        { text: "Veterinário", value: "vet" },
+        { text: "Paciente", value: "pacient" },
         { text: "Ações" },
       ],
-      clients: [
+      appointments: [
         {
           id: 1,
-          name: "Cácio",
-          email: "cclucas060901@gmail.com",
-          phone: "11999999999",
-        },
-        {
-          id: 2,
-          name: "Carol",
-          email: "anacarolina@gmail.com",
-          phone: "11999999999",
+          date: "2022-12-07",
+          vet: "rafa@gmail.com",
+          pacient: "Princesa",
         },
       ],
     };

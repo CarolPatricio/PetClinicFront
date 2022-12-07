@@ -1,66 +1,67 @@
 <template>
   <v-app>
-    <v-app-bar app color="pink" dark>
+    <v-app-bar app color="white" dark>
       <div
         class="d-flex align-center mr-4"
         @click="$router.push('/')"
         style="cursor: pointer"
       >
         <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
+          alt="Logo PetClinic"
+          class="mr-2"
           contain
-          src="https://github.com/rafasfz/PetClinic/blob/main/PetClinicSystem/public/assets/paw-print.png?raw=true"
+          src="../assets/logo_petclinic.png"
           transition="scale-transition"
-          width="40"
+          width="100"
         />
-        <h2>PetClinic</h2>
       </div>
-      <v-btn
-        :color="currentRoute.includes('clients') ? 'white' : 'pink'"
-        class="mx-2"
-        elevation="0"
-        :outlined="currentRoute.includes('clients')"
-        @click="$router.push('/clients')"
-      >
-        Clientes
-      </v-btn>
-      <v-btn
-        :color="currentRoute.includes('pets') ? 'white' : 'pink'"
-        class="mx-2"
-        elevation="0"
-        :outlined="currentRoute.includes('pets')"
-        @click="$router.push('/pets')"
-      >
-        Animais
-      </v-btn>
-      <v-btn
-        :color="currentRoute.includes('vets') ? 'white' : 'pink'"
-        class="mx-2"
-        elevation="0"
-        :outlined="currentRoute.includes('vets')"
-        @click="$router.push('/vets')"
-      >
-        Veterinários
-      </v-btn>
-      <v-btn
-        :color="currentRoute.includes('appointments') ? 'white' : 'pink'"
-        class="mx-2"
-        elevation="0"
-        :outlined="currentRoute.includes('appointments')"
-        @click="$router.push('/appointments')"
-      >
-        Consultas
-      </v-btn>
-      <v-btn
-        :color="currentRoute.includes('drugs') ? 'white' : 'pink'"
-        class="mx-2"
-        elevation="0"
-        :outlined="currentRoute.includes('drugs')"
-        @click="$router.push('/drugs')"
-      >
-        Medicamentos
-      </v-btn>
+      <div class="d-flex align-center justify-end">
+        <v-btn
+          color="white"
+          class="mx-2 blue--text"
+          elevation="0"
+          :outlined="currentRoute.includes('clients')"
+          @click="$router.push('/clients')"
+        >
+          Clientes
+        </v-btn>
+        <v-btn
+          color="white"
+          class="mx-2 blue--text"
+          elevation="0"
+          :outlined="currentRoute.includes('pets')"
+          @click="$router.push('/pets')"
+        >
+          Animais
+        </v-btn>
+        <v-btn
+          color="white"
+          class="mx-2 blue--text"
+          elevation="0"
+          :outlined="currentRoute.includes('vets')"
+          @click="$router.push('/vets')"
+        >
+          Veterinários
+        </v-btn>
+        <v-btn
+          color="white"
+          class="mx-2 blue--text"
+          elevation="0"
+          :outlined="currentRoute.includes('appointments')"
+          @click="$router.push('/appointments')"
+        >
+          Consultas
+        </v-btn>
+        <v-btn
+          color="white"
+          class="mx-2 blue--text"
+          elevation="0"
+          :outlined="currentRoute.includes('drugs')"
+          @click="$router.push('/drugs')"
+        >
+          Medicamentos
+        </v-btn>
+      </div>
       <v-spacer></v-spacer>
     </v-app-bar>
     <router-view></router-view>

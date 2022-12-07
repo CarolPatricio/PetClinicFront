@@ -1,15 +1,15 @@
 <template>
   <v-container class="p-5 mt-5">
     <v-flex class="d-flex justify-space-between">
-      <h1>Clientes</h1>
-      <v-btn color="blue" outlined @click="$router.push('clients/new')">
+      <h1>Pets</h1>
+      <v-btn color="blue" outlined @click="$router.push('pets/new')">
         <v-icon left> mdi-plus </v-icon>
         Adicionar
       </v-btn>
     </v-flex>
     <v-data-table
       :headers="headers"
-      :items="clients"
+      :items="animals"
       :items-per-page="5"
       hide-default-footer
       class="elevation-1 mt-4"
@@ -19,7 +19,7 @@
 
 <script>
 export default {
-  name: "ClientList",
+  name: "AnimalList",
   data() {
     return {
       headers: [
@@ -30,22 +30,25 @@ export default {
           value: "id",
         },
         { text: "Nome", value: "name" },
-        { text: "E-mail", value: "email" },
-        { text: "Telefone", value: "phone" },
+        { text: "Raca", value: "breed" },
+        { text: "Nascimento", value: "birth" },
+        { text: "Dono", value: "owner" },
         { text: "Ações" },
       ],
-      clients: [
+      animals: [
         {
           id: 1,
-          name: "Cácio",
-          email: "cclucas060901@gmail.com",
-          phone: "11999999999",
+          name: "Pipo",
+          breed: "Shitzu",
+          birth: "2020-08-24",
+          owner: "Carol",
         },
         {
           id: 2,
-          name: "Carol",
-          email: "anacarolina@gmail.com",
-          phone: "11999999999",
+          name: "Princesa",
+          breed: "Shitzu",
+          birth: "2019-08-24",
+          owner: "Gigi",
         },
       ],
     };

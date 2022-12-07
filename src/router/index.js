@@ -31,6 +31,46 @@ const routes = [
         name: "clients",
         component: () => import("../views/ClientList.vue"),
       },
+      {
+        path: "pets/new",
+        name: "new-pet",
+        component: () => import("../views/AnimalForm.vue"),
+      },
+      {
+        path: "pets",
+        name: "pets",
+        component: () => import("../views/AnimalList.vue"),
+      },
+      {
+        path: "vets/new",
+        name: "new-vet",
+        component: () => import("../views/VetForm.vue"),
+      },
+      {
+        path: "vets",
+        name: "vets",
+        component: () => import("../views/VetList.vue"),
+      },
+      {
+        path: "appointments/new",
+        name: "new-appointment",
+        component: () => import("../views/AppointmentForm.vue"),
+      },
+      {
+        path: "appointments",
+        name: "appointments",
+        component: () => import("../views/AppointmentList.vue"),
+      },
+      {
+        path: "drugs/new",
+        name: "new-drug",
+        component: () => import("../views/DrugForm.vue"),
+      },
+      {
+        path: "drugs",
+        name: "drugs",
+        component: () => import("../views/DrugList.vue"),
+      },
     ],
   },
 ];
