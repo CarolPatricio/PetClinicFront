@@ -10,12 +10,12 @@
           alt="Logo PetClinic"
           class="mr-2"
           contain
-          src="../assets/logo_petclinic.png"
+          src="@/assets/logo_petclinic.png"
           transition="scale-transition"
           width="100"
         />
       </div>
-      <div class="d-flex align-center justify-end">
+      <div>
         <v-btn
           color="white"
           class="mx-2 blue--text"
@@ -67,7 +67,6 @@
     <router-view></router-view>
   </v-app>
 </template>
-
 <script>
 export default {
   name: "BaseView",

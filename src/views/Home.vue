@@ -1,7 +1,5 @@
 <template>
-  <div>
-    <div class="d-flex flex-column align-center w-100 white"></div>
-  </div>
+  <v-container fluid> </v-container>
 </template>
 
 <script>

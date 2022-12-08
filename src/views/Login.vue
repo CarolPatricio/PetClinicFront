@@ -10,7 +10,7 @@
                   alt="Logo PetClinic"
                   class="shrink mr-2"
                   contain
-                  src="../assets/logo_petclinic.png"
+                  src="@/assets/logo_petclinic.png"
                   transition="scale-transition"
                   width="100"
                 />
