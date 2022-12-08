@@ -20,12 +20,14 @@
           ></v-text-field>
         </v-col>
         <v-col cols="12" md="4">
-          <v-text-field
-            v-model="animal.owner"
-            :rules="generateNotEmptyRule('dono')"
+          <v-select
+            :items="owners"
+            v-model="animal.owner_id"
             label="Dono"
             required
-          ></v-text-field>
+            item-text="name"
+            item-value="id"
+          ></v-select>
         </v-col>
         <v-col cols="12" md="12">
           <div>
@@ -39,7 +41,7 @@
             >
               <template v-slot:activator="{ on, attrs }">
                 <v-text-field
-                  v-model="animal.birth"
+                  v-model="animal.birth_date"
                   label="Nascimento"
                   prepend-icon="mdi-calendar"
                   readonly
@@ -49,7 +51,7 @@
                 ></v-text-field>
               </template>
               <v-date-picker
-                v-model="animal.birth"
+                v-model="animal.birth_date"
                 :max="
                   new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
                     .toISOString()
@@ -73,6 +75,7 @@
 </template>
 
 <script>
+import api from "@/services/axios";
 export default {
   name: "AnimalForm",
   data() {
@@ -80,20 +83,61 @@ export default {
       valid: false,
       date: null,
       menu: false,
-      animal: {
-        name: "",
-        breed: "",
-        birth: "",
-        owner: "",
-      },
+      owners: [],
+      animal: {},
     };
   },
+  mounted() {
+    this.getOwners();
+    if (this.$route.params.id) {
+      api.get(`/clients/pets/${this.$route.params.id}`).then((response) => {
+        this.animal = response.data;
+      });
+    } else {
+      this.animal = {
+        name: "",
+        breed: "",
+        birth_date: "",
+        owner_id: "",
+      };
+    }
+  },
   methods: {
+    getOwners() {
+      api.get("/clients").then((response) => {
+        this.owners = response.data;
+      });
+    },
     generateNotEmptyRule: function (field) {
       return [(v) => !!v || `Informe um(a) ${field}`];
     },
     save(date) {
       this.$refs.menu.save(date);
+    },
+    saveAnimal: function () {
+      if (this.$route.params.id) {
+        let animal_data = {
+          name: this.animal.name,
+          breed: this.animal.breed,
+          birth_date: this.animal.birth_date,
+          owner_id: this.animal.owner_id,
+        };
+        api
+          .put(`/clients/pets/${this.$route.params.id}/`, animal_data)
+          .then(() => {
+            this.$router.push({ name: "pets" });
+          });
+      } else {
+        let animal_data = {
+          name: this.animal.name,
+          breed: this.animal.breed,
+          birth_date: this.animal.birth_date,
+          owner_id: this.animal.owner_id,
+        };
+        api.post("/clients/pets/", animal_data).then(() => {
+          this.$router.push({ name: "pets" });
+        });
+      }
     },
   },
 };

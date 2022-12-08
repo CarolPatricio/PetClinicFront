@@ -42,7 +42,11 @@
           <v-divider></v-divider>
           <v-card-actions :class="{ 'pa-3': $vuetify.breakpoint.smAndUp }">
             <v-spacer></v-spacer>
-            <v-btn color="info" :large="$vuetify.breakpoint.smAndUp">
+            <v-btn
+              color="info"
+              :large="$vuetify.breakpoint.smAndUp"
+              @click="login"
+            >
               <v-icon class="mr-1">mdi-login</v-icon>
               Entrar
             </v-btn>
@@ -54,6 +58,7 @@
 </template>
 
 <script>
+import api from "@/services/axios";
 export default {
   name: "LoginView",
   data() {
@@ -62,6 +67,25 @@ export default {
       password: null,
       username: null,
     };
+  },
+  methods: {
+    login() {
+      api
+        .post("/authentication/login/", {
+          email: this.username,
+          password: this.password,
+        })
+        .then((response) => {
+          // Save token in local storage
+          localStorage.setItem("@petclinic/access-token", response.data.access);
+          localStorage.setItem(
+            "@petclinic/refresh-token",
+            response.data.refresh
+          );
+          // Redirect to home
+          this.$router.push({ name: "home" });
+        });
+    },
   },
 };
 </script>

@@ -13,11 +13,17 @@
       :items-per-page="5"
       hide-default-footer
       class="elevation-1 mt-4"
-    ></v-data-table>
+    >
+      <template v-slot:item.actions="{ item }">
+        <v-icon small class="mr-2" @click="editItem(item)"> mdi-pencil </v-icon>
+        <v-icon small @click="deleteItem(item)"> mdi-delete </v-icon>
+      </template>
+    </v-data-table>
   </v-container>
 </template>
 
 <script>
+import api from "@/services/axios";
 export default {
   name: "AnimalList",
   data() {
@@ -27,31 +33,40 @@ export default {
           text: "#",
           align: "start",
           sortable: false,
-          value: "id",
+          value: "index",
         },
         { text: "Nome", value: "name" },
         { text: "Raca", value: "breed" },
         { text: "Nascimento", value: "birth" },
         { text: "Dono", value: "owner" },
-        { text: "Ações" },
+        { text: "Ações", value: "actions" },
       ],
-      animals: [
-        {
-          id: 1,
-          name: "Pipo",
-          breed: "Shitzu",
-          birth: "2020-08-24",
-          owner: "Carol",
-        },
-        {
-          id: 2,
-          name: "Princesa",
-          breed: "Shitzu",
-          birth: "2019-08-24",
-          owner: "Gigi",
-        },
-      ],
+      animals: [],
     };
+  },
+  methods: {
+    editItem: function (item) {
+      this.$router.push(`/pets/${item.id}`);
+    },
+    deleteItem: function (item) {
+      api.delete(`/clients/pets/${item.id}/`).then(() => {
+        this.animals = this.animals.filter((animal) => animal.id !== item.id);
+      });
+    },
+  },
+  mounted() {
+    api.get("/clients/pets").then((response) => {
+      this.animals = response.data.map((animal, index) => {
+        return {
+          id: animal.id,
+          index: index + 1,
+          name: animal.name,
+          breed: animal.breed,
+          birth: animal.birth_date,
+          owner: animal.owner_name,
+        };
+      });
+    });
   },
 };
 </script>
