@@ -42,7 +42,7 @@ api.interceptors.response.use(
       logout();
       throw await Promise.reject(error);
     }
-    const response = await api.post("auth/token/refresh/", {
+    const response = await api.post("authentication/login/refresh/", {
       refresh: localStorage.getItem("@petclinic/refresh-token"),
     });
 

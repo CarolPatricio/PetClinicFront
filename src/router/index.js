@@ -110,8 +110,7 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
   const loggedIn = localStorage.getItem("@petclinic/access-token");
   const requiresAuth = to.matched.some((record) => record.meta.requiresAuth);
-  console.log("loggedIn", loggedIn);
-  console.log("requiresAuth", requiresAuth);
+
   if (to.matched.some((record) => record.path.endsWith("/login")) && loggedIn) {
     next(`/`);
   }

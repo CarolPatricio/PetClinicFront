@@ -23,6 +23,7 @@
 </template>
 
 <script>
+import api from "@/services/axios";
 export default {
   name: "DrugForm",
   data() {
@@ -33,9 +34,29 @@ export default {
       },
     };
   },
+  mounted() {
+    if (this.$route.params.id) {
+      api.get(`/clinic/drugs/${this.$route.params.id}`).then((response) => {
+        this.drug = response.data;
+      });
+    }
+  },
   methods: {
     generateNotEmptyRule: function (field) {
       return [(v) => !!v || `Informe um(a) ${field}`];
+    },
+    saveDrug: function () {
+      if (this.$route.params.id) {
+        api
+          .put(`/clinic/drugs/${this.$route.params.id}/`, this.drug)
+          .then(() => {
+            this.$router.push("/drugs");
+          });
+      } else {
+        api.post("/clinic/drugs/", this.drug).then(() => {
+          this.$router.push("/drugs");
+        });
+      }
     },
   },
 };

@@ -40,6 +40,7 @@
           elevation="0"
           :outlined="currentRoute.includes('vets')"
           @click="$router.push('/vets')"
+          v-if="loggedRole === 'admin'"
         >
           Veterinários
         </v-btn>
@@ -63,6 +64,18 @@
         </v-btn>
       </div>
       <v-spacer></v-spacer>
+      <div>
+        <v-btn
+          color="white"
+          class="mx-2 blue--text"
+          elevation="0"
+          outlined
+          @click="logout"
+        >
+          <v-icon>mdi-logout</v-icon>
+          Sair
+        </v-btn>
+      </div>
     </v-app-bar>
     <router-view></router-view>
   </v-app>
@@ -76,6 +89,16 @@ export default {
   computed: {
     currentRoute() {
       return this.$route.path;
+    },
+    loggedRole() {
+      return localStorage.getItem("@petclinic/user-role");
+    },
+  },
+  methods: {
+    logout() {
+      localStorage.removeItem("@petclinic/access-token");
+      localStorage.removeItem("@petclinic/refresh-token");
+      this.$router.push("/login");
     },
   },
 };

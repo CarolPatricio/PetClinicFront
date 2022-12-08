@@ -32,26 +32,53 @@
                     .substr(0, 10)
                 "
                 min="1950-01-01"
-                @change="save"
+                required
               ></v-date-picker>
             </v-menu>
           </div>
         </v-col>
         <v-col cols="12" md="4">
           <v-select
-            :items="items"
+            :items="pets"
             :menu-props="{ top: true, offsetY: true }"
-            v-model="appointment.vet"
-            label="Veterinário"
+            v-model="appointment.pet_id"
+            label="Paciente"
+            item-text="name"
+            item-value="id"
+            hide-details
+            required
           ></v-select>
         </v-col>
         <v-col cols="12" md="4">
           <v-select
-            :items="items"
+            :items="drugs"
             :menu-props="{ top: true, offsetY: true }"
-            v-model="appointment.pacient"
-            label="Paciente"
+            v-model="appointment.drugs_ids"
+            label="Remédios"
+            multiple
+            item-text="name"
+            item-value="id"
+            required
+            hint="Selecione os remédios"
           ></v-select>
+        </v-col>
+        <v-col cols="12" md="6">
+          <v-textarea
+            clearable
+            clear-icon="mdi-close-circle"
+            label="Descrição"
+            v-model="appointment.description"
+            required
+          ></v-textarea>
+        </v-col>
+        <v-col cols="12" md="6">
+          <v-textarea
+            clearable
+            clear-icon="mdi-close-circle"
+            label="Diagnóstico"
+            v-model="appointment.diagnosis"
+            required
+          ></v-textarea>
         </v-col>
       </v-row>
       <v-row class="justify-end">
@@ -65,6 +92,7 @@
 </template>
 
 <script>
+import api from "@/services/axios";
 export default {
   name: "AnimalForm",
   data() {
@@ -72,14 +100,44 @@ export default {
       valid: false,
       date: null,
       menu: false,
-      appointment: {
-        date: "",
-        vet: "",
-        pacient: "",
-      },
+      drugs: [],
+      pets: [],
+      appointment: {},
     };
   },
-  methods: {},
+  mounted() {
+    if (this.$route.params.id) {
+      api
+        .get(`/clinic/appointments/${this.$route.params.id}/`)
+        .then((response) => {
+          this.appointment = {
+            date: response.data.date,
+            pet_id: response.data.pet.id,
+            drugs_ids: response.data.drugs.map((drug) => drug.id),
+            description: response.data.description,
+            diagnosis: response.data.diagnosis,
+          };
+        });
+    }
+    Promise.all([api.get("/clinic/drugs"), api.get("/clients/pets")]).then(
+      (response) => {
+        this.drugs = response[0].data;
+        this.pets = response[1].data;
+      }
+    );
+  },
+  methods: {
+    saveAppointment() {
+      api
+        .post("/clinic/appointments/", this.appointment)
+        .then(() => {
+          this.$router.push("/appointments");
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+  },
 };
 </script>
 

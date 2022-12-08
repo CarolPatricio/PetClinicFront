@@ -13,11 +13,17 @@
       :items-per-page="5"
       hide-default-footer
       class="elevation-1 mt-4"
-    ></v-data-table>
+    >
+      <template v-slot:item.actions="{ item }">
+        <v-icon small class="mr-2" @click="editItem(item)"> mdi-pencil </v-icon>
+        <v-icon small @click="deleteItem(item)"> mdi-delete </v-icon>
+      </template>
+    </v-data-table>
   </v-container>
 </template>
 
 <script>
+import api from "@/services/axios";
 export default {
   name: "DrugList",
   data() {
@@ -27,22 +33,34 @@ export default {
           text: "#",
           align: "start",
           sortable: false,
-          value: "id",
+          value: "index",
         },
         { text: "Nome", value: "name" },
-        { text: "Ações" },
+        { text: "Ações", value: "actions" },
       ],
-      drugs: [
-        {
-          id: 1,
-          name: "Bravecto",
-        },
-        {
-          id: 2,
-          name: "Drontal",
-        },
-      ],
+      drugs: [],
     };
+  },
+  mounted() {
+    api.get("/clinic/drugs").then((response) => {
+      this.drugs = response.data.map((drug, index) => {
+        return {
+          id: drug.id,
+          index: index + 1,
+          name: drug.name,
+        };
+      });
+    });
+  },
+  methods: {
+    editItem: function (item) {
+      this.$router.push(`/drugs/${item.id}`);
+    },
+    deleteItem: function (item) {
+      api.delete(`/clinic/drugs/${item.id}/`).then(() => {
+        this.drugs = this.drugs.filter((drug) => drug.id !== item.id);
+      });
+    },
   },
 };
 </script>

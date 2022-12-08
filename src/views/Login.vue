@@ -59,6 +59,7 @@
 
 <script>
 import api from "@/services/axios";
+import jwt_decode from "jwt-decode";
 export default {
   name: "LoginView",
   data() {
@@ -69,22 +70,18 @@ export default {
     };
   },
   methods: {
-    login() {
-      api
-        .post("/authentication/login/", {
-          email: this.username,
-          password: this.password,
-        })
-        .then((response) => {
-          // Save token in local storage
-          localStorage.setItem("@petclinic/access-token", response.data.access);
-          localStorage.setItem(
-            "@petclinic/refresh-token",
-            response.data.refresh
-          );
-          // Redirect to home
-          this.$router.push({ name: "home" });
-        });
+    async login() {
+      let { data } = await api.post("/authentication/login/", {
+        email: this.username,
+        password: this.password,
+      });
+      // Save token in local storage
+      localStorage.setItem("@petclinic/access-token", data.access);
+      localStorage.setItem("@petclinic/refresh-token", data.refresh);
+      let { user_role } = jwt_decode(data.access);
+      localStorage.setItem("@petclinic/user-role", user_role);
+      // Redirect to home
+      this.$router.push({ name: "home" });
     },
   },
 };
